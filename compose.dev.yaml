@@ -1,0 +1,21 @@
+services:
+  chat-database:
+    container_name: chat-service-database
+    image: postgres:18
+    environment:
+      POSTGRES_DB: dev_chat_database
+      POSTGRES_USER: developer
+      POSTGRES_PASSWORD: 12345678
+    ports:
+      - "5434:5432"
+    volumes:
+      - "chat_data:/var/lib/postgresql"
+    restart: always
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U developer dev_chat_database" ]
+      interval: 5s
+      timeout: 15s
+      retries: 5
+
+volumes:
+  chat_data:
